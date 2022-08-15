@@ -142,6 +142,25 @@ $(window).on('load', function() {
 
     }
 
+    function disableSelect(el) {
+        if (el.addEventListener) {
+            el.addEventListener("mousedown", disabler, "false");
+        }
+        if (el.addEventListener) {
+            el.addEventListener("keydown", disabler, "false");
+        } else {
+            el.attachEvent("onselectstart", disabler);
+        }
+    }
+
+    document.querySelectorAll(".key").forEach(element => {
+        disableSelect(element)
+    });
+
+    function disabler(e) {
+        if (e.preventDefault) { e.preventDefault(); }
+        return false;
+    }
 });
 
 console.log(screen.width);
