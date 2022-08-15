@@ -7,10 +7,13 @@ $(window).on('load', function() {
     let started = false
     let level = 0
 
-    const gameStart = $(document).keypress(function(e) {
+    const gameStart = $('.start').bind('touchstart click', function(e) {
         if (!started) {
-            nextSequence()
+            setTimeout(() => {
+                nextSequence()
+            }, 1000);
             started = true
+            $('.menu').toggleClass('active')
         }
     });
 
@@ -24,6 +27,7 @@ $(window).on('load', function() {
         level = 0;
         gamePattern = [];
         started = false;
+        $('.start').toggleClass('active')
     }
 
     function checkAnswer() {
