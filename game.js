@@ -79,7 +79,40 @@ $(window).on('load', function() {
         if (userClickedPattern.length === gamePattern.length) {
             checkAnswer();
         }
+    }
+
+    $('.btn').click(function() {
+        pushChoice(this)
     });
+
+    $(document).keypress(function(event) {
+        switch (event.key) {
+            case 'a':
+                pushChoice('a')
+                event.preventDefault()
+                break;
+
+            case 's':
+                pushChoice('s')
+                event.preventDefault()
+                break;
+
+            case 'd':
+                pushChoice('d')
+                event.preventDefault()
+
+                break;
+
+            case 'f':
+                pushChoice('f')
+                event.preventDefault()
+
+                break;
+
+            default:
+                break;
+        }
+    })
 
     function nextSequence() {
         userClickedPattern = []
