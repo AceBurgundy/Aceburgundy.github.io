@@ -47,7 +47,25 @@ $(window).on('load', function() {
                     $("body").removeClass("game-over")
                 }, 200);
 
-                startOver();
+                startOver()
+
+                document.addEventListener("touchstart", () => {
+                    started = true;
+                    setTimeout(() => {
+                        nextSequence()
+                    }, 1000);
+                    e.preventDefault()
+                })
+
+                $(document).keypress(function(e) {
+                    if (e.key == 'r') {
+                        started = true;
+                        setTimeout(() => {
+                            nextSequence()
+                        }, 1000);
+                        e.preventDefault()
+                    }
+                })
             }
         }
     }
