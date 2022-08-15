@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "Rubik Medium";
+    src: url(./fonts/Rubik-Medium.ttf);
+}
+
+@font-face {
+    font-family: "Rubik Regular";
+    src: url(./fonts/Rubik-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Rubik Light";
+    src: url(./fonts/Rubik-Light.ttf);
+}
+
+@font-face {
+    font-family: "Poppins Medium";
+    src: url(./fonts/Poppins-Medium.ttf);
+}

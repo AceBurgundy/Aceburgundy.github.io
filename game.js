@@ -7,10 +7,13 @@ $(window).on('load', function() {
     let started = false
     let level = 0
 
-    const gameStart = $(document).keypress(function(e) {
+    const gameStart = $('.start').bind('touchstart click', function(e) {
         if (!started) {
-            nextSequence()
+            setTimeout(() => {
+                nextSequence()
+            }, 1000);
             started = true
+            $('.menu').toggleClass('active')
         }
     });
 
@@ -24,6 +27,7 @@ $(window).on('load', function() {
         level = 0;
         gamePattern = [];
         started = false;
+        $('.start').toggleClass('active')
     }
 
     function checkAnswer() {
@@ -37,27 +41,84 @@ $(window).on('load', function() {
             } else {
                 playSound("wrong");
                 $("body").addClass("game-over");
-                $("#level-title").text("Game Over, Press Any Key to Restart");
+                $("#level-title").text("Game Over, Press 'r' to Restart");
 
                 setTimeout(function() {
                     $("body").removeClass("game-over")
                 }, 200);
 
-                startOver();
+                startOver()
+
+                document.addEventListener("touchstart", () => {
+                    started = true;
+                    setTimeout(() => {
+                        nextSequence()
+                    }, 1000);
+                    e.preventDefault()
+                })
+
+                $(document).keypress(function(e) {
+                    if (e.key == 'r') {
+                        started = true;
+                        setTimeout(() => {
+                            nextSequence()
+                        }, 1000);
+                        e.preventDefault()
+                    }
+                })
             }
         }
     }
 
-    $('.btn').click(function() {
-        let userChosenColor = $(this).attr('id')
+    function pushChoice(key) {
+        let userChosenColor = $('#' + key).parent().attr('id');
         userClickedPattern.push(userChosenColor)
+
+        $("#" + key).parent().toggleClass("active");
+        setTimeout(() => {
+            $("#" + key).parent().removeClass("active");
+        }, 150);
+
         playSound(userChosenColor)
 
         // When the length of both arrays are the same, check the answer
         if (userClickedPattern.length === gamePattern.length) {
             checkAnswer();
         }
+    }
+
+    $('.btn').click(function() {
+        pushChoice(this)
     });
+
+    $(document).keypress(function(event) {
+        switch (event.key) {
+            case 'a':
+                pushChoice('a')
+                event.preventDefault()
+                break;
+
+            case 's':
+                pushChoice('s')
+                event.preventDefault()
+                break;
+
+            case 'd':
+                pushChoice('d')
+                event.preventDefault()
+
+                break;
+
+            case 'f':
+                pushChoice('f')
+                event.preventDefault()
+
+                break;
+
+            default:
+                break;
+        }
+    })
 
     function nextSequence() {
         userClickedPattern = []
@@ -74,7 +135,10 @@ $(window).on('load', function() {
 
         const doSomething = async() => {
             for (let index = 0; index < gamePattern.length; index++) {
-                $("#" + gamePattern[index]).fadeIn(100).fadeOut(100).fadeIn(100);
+                $("." + gamePattern[index]).toggleClass("active");
+                setTimeout(() => {
+                    $("." + gamePattern[index]).removeClass("active");
+                }, 150);
                 playSound(gamePattern[index])
                 await sleep(500)
             }
@@ -84,4 +148,26 @@ $(window).on('load', function() {
 
     }
 
+    function disableSelect(el) {
+        if (el.addEventListener) {
+            el.addEventListener("mousedown", disabler, "false");
+        }
+        if (el.addEventListener) {
+            el.addEventListener("keydown", disabler, "false");
+        } else {
+            el.attachEvent("onselectstart", disabler);
+        }
+    }
+
+    document.querySelectorAll(".key").forEach(element => {
+        disableSelect(element)
+    });
+
+    function disabler(e) {
+        if (e.preventDefault) { e.preventDefault(); }
+        return false;
+    }
 });
+
+console.log(screen.width);
+screen.width < 1190 ? $('.game').css('height', '100%') : $('.game').css('height', '80%')
