@@ -70,9 +70,15 @@ $(window).on('load', function() {
         }
     }
 
-    $('.btn').click(function() {
-        let userChosenColor = $(this).attr('id')
+    function pushChoice(key) {
+        let userChosenColor = $('#' + key).parent().attr('id');
         userClickedPattern.push(userChosenColor)
+
+        $("#" + key).parent().toggleClass("active");
+        setTimeout(() => {
+            $("#" + key).parent().removeClass("active");
+        }, 150);
+
         playSound(userChosenColor)
 
         // When the length of both arrays are the same, check the answer
