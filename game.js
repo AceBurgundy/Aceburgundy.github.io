@@ -129,7 +129,10 @@ $(window).on('load', function() {
 
         const doSomething = async() => {
             for (let index = 0; index < gamePattern.length; index++) {
-                $("#" + gamePattern[index]).fadeIn(100).fadeOut(100).fadeIn(100);
+                $("." + gamePattern[index]).toggleClass("active");
+                setTimeout(() => {
+                    $("." + gamePattern[index]).removeClass("active");
+                }, 150);
                 playSound(gamePattern[index])
                 await sleep(500)
             }
