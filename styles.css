@@ -1,34 +1,130 @@
+@import url('fonts.css');
+* {
+    margin: 0%;
+    padding: 0%;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+}
+
 body {
-    text-align: center;
-    background-color: #011F3F;
+    height: 100vh;
+    width: 100vw;
+    background-color: #171c22;
+    box-sizing: border-box;
+    position: relative;
 }
 
 #level-title {
     font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    text-justify: auto;
     font-size: 3rem;
-    margin: 5%;
     color: #FEF2BF;
 }
 
 .container {
-    display: block;
-    width: 50%;
-    margin: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    flex-wrap: wrap;
+    gap: 5em;
+}
+
+.game {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.row {
+    display: flex;
+    gap: 5em;
+}
+
+.menu {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #171c22;
+    gap: 3rem;
+    position: absolute;
+    z-index: 2;
+    top: 0%;
+    transition: 500ms ease-out;
+}
+
+.menu.active {
+    top: 100%;
+    visibility: hidden;
+}
+
+.start {
+    cursor: pointer;
+    padding: 0.5em;
+    background-color: #FEF2BF;
+    font-family: 'Press Start 2P', cursive;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5.5rem;
 }
 
 .btn {
-    margin: 25px;
-    display: inline-block;
-    height: 200px;
-    width: 200px;
-    border: 10px solid black;
-    border-radius: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: 100ms;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    background: #25292C;
+    border-radius: 50%;
+    color: rgba(155, 155, 155, 1);
+    text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.8), 1px 1px 2px rgba(0, 0, 0, 1);
+    font-size: 5em;
+    font-family: sans-serif;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3), inset 3px 15px 45px rgba(255, 255, 255, 0.1), inset -1px -1px 2px rgba(0, 0, 0, 0.5), inset -3px -15px 45px rgba(0, 0, 0, 0.2), 1px 5px 30px -4px rgba(0, 0, 0, 1);
+    -webkit-transition: 0.1s ease-out;
+    -moz-transition: 0.1s ease-out;
+    -o-transition: 0.1s ease-out;
+    transition: 0.1s ease-out;
+}
+
+.btn:before {
+    content: "";
+    background: #1A1A1A;
+    width: 230px;
+    height: 230px;
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    z-index: -1;
+    border-radius: 50%;
+    box-shadow: inset -1px -1px 2px rgba(255, 255, 255, 0.3), inset -5px -15px 40px rgba(255, 255, 255, 0.1), inset 1px 1px 2px rgba(0, 0, 0, 0.5), inset 5px 15px 40px rgba(0, 0, 0, 0.2), -2px -40px 50px -20px rgba(255, 255, 255, 0.1), 2px 35px 50px -10px rgba(0, 0, 0, 0.4), 0px 0px 25px 8px rgba(60, 60, 60, 1);
 }
 
 .btn:active {
-    background-color: black;
+    color: rgba(0, 0, 0, 0.7);
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3), inset 3px 15px 45px rgba(0, 0, 0, 0.2), inset -1px -1px 2px rgba(0, 0, 0, 0.5), inset -3px -15px 45px rgba(255, 255, 255, 0.1), 1px 5px 10px -4px rgba(0, 0, 0, 1);
+}
+
+.key {
+    font-size: 5rem;
+    text-transform: uppercase;
+    font-family: 'Press Start 2P', cursive;
+    pointer-events: none;
 }
 
 .game-over {
@@ -36,23 +132,41 @@ body {
     opacity: 0.8;
 }
 
-.red {
+.red:active,
+.red.active {
     background-color: red;
 }
 
-.green {
+.green:active,
+.green.active {
     background-color: green;
 }
 
-.blue {
+.blue:active,
+.blue.active {
     background-color: blue;
 }
 
-.yellow {
+.yellow:active,
+.yellow.active {
     background-color: yellow;
 }
 
-.pressed {
-    box-shadow: 0 0 20px white;
-    background-color: grey;
+@media screen and (max-width: 1190px) {
+    #level-title {
+        font-size: 6rem;
+    }
+    .container {
+        width: 100%;
+        height: 50%;
+        flex-direction: column;
+    }
+    .btn {
+        width: 350px;
+        height: 350px;
+    }
+    .btn:before {
+        width: 380px;
+        height: 380px;
+    }
 }
