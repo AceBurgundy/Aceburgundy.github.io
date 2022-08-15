@@ -62,7 +62,7 @@ $(window).on('load', function() {
                         started = true;
                         setTimeout(() => {
                             nextSequence()
-                        }, 1000);
+                        }, 500);
                         e.preventDefault()
                     }
                 })
