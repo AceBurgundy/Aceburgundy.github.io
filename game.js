@@ -41,7 +41,7 @@ $(window).on('load', function() {
             } else {
                 playSound("wrong");
                 $("body").addClass("game-over");
-                $("#level-title").text("Game Over, Press Any Key to Restart");
+                $("#level-title").text("Game Over, Press 'r' to Restart");
 
                 setTimeout(function() {
                     $("body").removeClass("game-over")
