@@ -143,3 +143,6 @@ $(window).on('load', function() {
     }
 
 });
+
+console.log(screen.width);
+screen.width < 1190 ? $('.game').css('height', '100%') : $('.game').css('height', '80%')
