@@ -88,7 +88,7 @@ $(window).on('load', function() {
     }
 
     $('.btn').click(function() {
-        pushChoice(this)
+        pushChoice($(this).children().attr("id"))
     });
 
     $(document).keypress(function(event) {
