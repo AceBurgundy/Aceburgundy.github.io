@@ -7,7 +7,7 @@ $(window).on('load', function() {
     let started = false
     let level = 0
 
-    const gameStart = $('.start').bind('touchstart click', function(e) {
+    $('.start').bind('touchstart click', function(e) {
         if (!started) {
             setTimeout(() => {
                 nextSequence()
@@ -169,5 +169,4 @@ $(window).on('load', function() {
     }
 });
 
-console.log(screen.width);
 screen.width < 1190 ? $('.game').css('height', '100%') : $('.game').css('height', '80%')

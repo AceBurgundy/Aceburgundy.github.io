@@ -71,7 +71,7 @@ body {
 .start {
     cursor: pointer;
     padding: 0.5em;
-    background-color: #FEF2BF;
+    background-color: rgb(254, 242, 191);
     font-family: 'Press Start 2P', cursive;
     width: fit-content;
     display: flex;
