@@ -1,173 +1,171 @@
-$(window).on('load', function() {
+const element = query => document.querySelector(query)
 
-    buttonColours = ['green', 'red', 'yellow', 'blue']
+window.onload = () => {
+
+    buttonColors = ['green', 'red', 'yellow', 'blue']
     gamePattern = []
     userClickedPattern = []
 
     let started = false
     let level = 0
 
-    const gameStart = $('.start').bind('touchstart click', function(e) {
+    element('.start').addEventListener('click', () => {
         if (!started) {
-            setTimeout(() => {
-                nextSequence()
-            }, 1000);
-            started = true
-            $('.menu').toggleClass('active')
-        }
-    });
 
-    function playSound(color) {
+            let time = 5
+            const title = element("#level-title")
+            element('.menu').classList.toggle('active')
+
+            const countDown = setInterval(() => {
+                if (time !== 0) {
+                    time--
+                    title.textContent = `Watch out for the sequence in ${time}`
+                } else {
+                    clearInterval(countDown)
+                    nextSequence()
+                    started = true
+                }        
+            }, 1000)
+        }
+    })
+    
+
+    const playSound = color => {
         sound = new Audio(`sounds/${color}.mp3`)
         sound.play()
     }
 
     // reset the game
-    function startOver() {
-        level = 0;
-        gamePattern = [];
-        started = false;
-        $('.start').toggleClass('active')
+    const startOver = () => {
+        level = 0
+        gamePattern = []
+        started = false
+        element('.start').classList.toggle('active')
     }
 
-    function checkAnswer() {
-        for (let currentLevel = 0; currentLevel < gamePattern.length; currentLevel++) {
-            if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-                if (currentLevel == gamePattern.length - 1) {
-                    setTimeout(function() {
-                        nextSequence();
-                    }, 1000);
-                }
-            } else {
-                playSound("wrong");
-                $("body").addClass("game-over");
-                $("#level-title").text("Game Over, Press 'r' to Restart");
+    const checkAnswer = () => {
+        
+        const currentIndex = userClickedPattern.length - 1;
+        const currentButtonColor = userClickedPattern[currentIndex];
+        const currentPatternColor = gamePattern[currentIndex];
 
-                setTimeout(function() {
-                    $("body").removeClass("game-over")
-                }, 200);
+        if (currentButtonColor === currentPatternColor) {
 
-                startOver()
+            if (userClickedPattern.length === gamePattern.length) {
+                setTimeout(() => {
+                    nextSequence();
+                }, 1000);
+            }
 
-                document.addEventListener("touchstart", () => {
+        } else {
+            playSound("wrong");
+            element("body").classList.add("game-over");
+            element("#level-title").textContent = "Game Over, Press 'r' to Restart";
+
+            setTimeout(() => {
+                element("body").classList.remove("game-over");
+            }, 200);
+
+            startOver();
+
+            window.addEventListener("keypress", event => {
+                if (event.key === "r") {
                     started = true;
                     setTimeout(() => {
-                        nextSequence()
-                    }, 1000);
-                    e.preventDefault()
-                })
-
-                $(document).keypress(function(e) {
-                    if (e.key == 'r') {
-                        started = true;
-                        setTimeout(() => {
-                            nextSequence()
-                        }, 500);
-                        e.preventDefault()
-                    }
-                })
-            }
+                        nextSequence();
+                    }, 500);
+                    event.preventDefault();
+                }
+            });
         }
-    }
 
-    function pushChoice(key) {
-        let userChosenColor = $('#' + key).parent().attr('id');
+    };
+
+    const pushChoice = key => {
+
+        let userChosenColor = element(`#${key}`).parentElement.getAttribute('id')
         userClickedPattern.push(userChosenColor)
 
-        $("#" + key).parent().toggleClass("active");
+        checkAnswer()
+
+        element(`#${key}`).parentElement.classList.toggle("active")
+
         setTimeout(() => {
-            $("#" + key).parent().removeClass("active");
-        }, 150);
+            element(`#${key}`).parentElement.classList.toggle("active")
+        }, 150)
 
         playSound(userChosenColor)
 
-        // When the length of both arrays are the same, check the answer
-        if (userClickedPattern.length === gamePattern.length) {
-            checkAnswer();
+    }
+
+    window.onclick = event => {
+        if (event.target.classList.contains("button")) {
+            pushChoice(event.target.firstElementChild.getAttribute("id"))
         }
     }
 
-    $('.btn').click(function() {
-        pushChoice(this)
-    });
+    window.addEventListener("keypress", event => {
 
-    $(document).keypress(function(event) {
         switch (event.key) {
             case 'a':
                 pushChoice('a')
                 event.preventDefault()
-                break;
+                break
 
             case 's':
                 pushChoice('s')
                 event.preventDefault()
-                break;
+                break
 
             case 'd':
                 pushChoice('d')
                 event.preventDefault()
 
-                break;
+                break
 
             case 'f':
                 pushChoice('f')
                 event.preventDefault()
 
-                break;
+                break
 
             default:
-                break;
-        }
+                break
+        }        
     })
 
-    function nextSequence() {
+    const nextSequence = () => {
+
         userClickedPattern = []
         level++
-        $("#level-title").text("Level " + level);
 
-        let randomNumber = Math.floor(Math.random() * 4);
-        let randomChosenColor = buttonColours[randomNumber]
-        gamePattern.push(randomChosenColor);
+        element("#level-title").textContent = `"Level" ${level}`
+
+        let randomNumber = Math.floor(Math.random() * 4)
+        let randomChosenColor = buttonColors[randomNumber]
+        gamePattern.push(randomChosenColor)
 
         const sleep = (time) => {
             return new Promise(resolve => setTimeout(resolve, time))
         }
 
-        const doSomething = async() => {
+        const showPattern = async() => {
+
             for (let index = 0; index < gamePattern.length; index++) {
-                $("." + gamePattern[index]).toggleClass("active");
+
+                element("." + gamePattern[index]).classList.add("active")
+
                 setTimeout(() => {
-                    $("." + gamePattern[index]).removeClass("active");
-                }, 150);
+                    element("." + gamePattern[index]).classList.remove("active")
+                }, 150)
+
                 playSound(gamePattern[index])
                 await sleep(500)
             }
+
         }
 
-        doSomething()
-
+        showPattern()
     }
 
-    function disableSelect(el) {
-        if (el.addEventListener) {
-            el.addEventListener("mousedown", disabler, "false");
-        }
-        if (el.addEventListener) {
-            el.addEventListener("keydown", disabler, "false");
-        } else {
-            el.attachEvent("onselectstart", disabler);
-        }
-    }
-
-    document.querySelectorAll(".key").forEach(element => {
-        disableSelect(element)
-    });
-
-    function disabler(e) {
-        if (e.preventDefault) { e.preventDefault(); }
-        return false;
-    }
-});
-
-console.log(screen.width);
-screen.width < 1190 ? $('.game').css('height', '100%') : $('.game').css('height', '80%')
+}
