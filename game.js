@@ -168,4 +168,19 @@ window.onload = () => {
         showPattern()
     }
 
+    // START BUTTON TEXT RESIZER
+
+    function handleOrientationChange() {
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            window.fitText(title, 3.5)
+        }
+    }
+    
+    elements(".key").forEach(key => window.fitText(key, 0.2))
+    
+    window.addEventListener("orientationchange", handleOrientationChange);
+    
+    handleOrientationChange();
+    
+    //END BUTTON TEXT RESIZER
 }
