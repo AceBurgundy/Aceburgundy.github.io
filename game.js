@@ -1,19 +1,22 @@
+
 const element = query => document.querySelector(query)
+const elements = query => document.querySelectorAll(query)
 
 window.onload = () => {
 
     buttonColors = ['green', 'red', 'yellow', 'blue']
     gamePattern = []
     userClickedPattern = []
-
+    const title = element("#level-title")
+    
     let started = false
     let level = 0
 
+    // start button clicked
     element('.start').addEventListener('click', () => {
         if (!started) {
 
             let time = 5
-            const title = element("#level-title")
             element('.menu').classList.toggle('active')
 
             const countDown = setInterval(() => {
@@ -29,7 +32,7 @@ window.onload = () => {
         }
     })
     
-
+    // plays sound
     const playSound = color => {
         sound = new Audio(`sounds/${color}.mp3`)
         sound.play()
@@ -43,6 +46,7 @@ window.onload = () => {
         element('.start').classList.toggle('active')
     }
 
+    // checks answer
     const checkAnswer = () => {
         
         const currentIndex = userClickedPattern.length - 1;
@@ -60,7 +64,7 @@ window.onload = () => {
         } else {
             playSound("wrong");
             element("body").classList.add("game-over");
-            element("#level-title").textContent = "Game Over, Press 'r' to Restart";
+            title.textContent = "Game Over, Press 'r' to Restart";
 
             setTimeout(() => {
                 element("body").classList.remove("game-over");
@@ -81,6 +85,7 @@ window.onload = () => {
 
     };
 
+    // called by button pressed and keyboared pressed events
     const pushChoice = key => {
 
         let userChosenColor = element(`#${key}`).parentElement.getAttribute('id')
@@ -98,12 +103,14 @@ window.onload = () => {
 
     }
 
+    //runs when a button is pressed
     window.onclick = event => {
         if (event.target.classList.contains("button")) {
             pushChoice(event.target.firstElementChild.getAttribute("id"))
         }
     }
 
+    // runs when a keyboard key is pressed
     window.addEventListener("keypress", event => {
 
         switch (event.key) {
@@ -134,6 +141,7 @@ window.onload = () => {
         }        
     })
 
+    // shows next pattern sequence
     const nextSequence = () => {
 
         userClickedPattern = []
